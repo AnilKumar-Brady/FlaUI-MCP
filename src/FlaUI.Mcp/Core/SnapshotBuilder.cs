@@ -72,7 +72,7 @@ public class SnapshotBuilder
         // Name in quotes if present
         if (!string.IsNullOrEmpty(name))
         {
-            parts.Add($"\"{EscapeName(name)}\"");
+            parts.Add($"{EscapeName(name)}");
         }
 
         // Ref
@@ -146,16 +146,10 @@ public class SnapshotBuilder
         try
         {
             var name = element.Properties.Name.ValueOrDefault;
-            if (!string.IsNullOrWhiteSpace(name)) return name;
-
-            // Try automation ID as fallback for identification
             var automationId = element.Properties.AutomationId.ValueOrDefault;
-            if (!string.IsNullOrWhiteSpace(automationId) && automationId.Length < 50)
-            {
-                return $"[{automationId}]";
-            }
 
-            return null;
+            return $"[automationId={automationId}] [name={name}]";
+
         }
         catch
         {
